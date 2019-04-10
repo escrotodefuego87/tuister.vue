@@ -2,7 +2,7 @@
     <div>
         <v-container grid-list-xl fluid fill-height>
             <v-layout row wrap>
-                <v-card id="carta">
+                <v-card id="formBody">
                     <v-flex xs10 offset-xs1>
                         <v-form>
                             <h1>Iniciar sesion en Tuister</h1>
@@ -28,7 +28,7 @@ export default {
 }
 </script>
 <style>
-    #carta{
+    #formBody{
         border-radius: 15px;
     }
    

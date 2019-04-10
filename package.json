@@ -10,6 +10,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0-rc.1",
     "core-js": "^2.6.5",
+    "vee-validate": "^2.2.0",
     "vue": "^2.6.6",
     "vue-router": "^3.0.1",
     "vuetify": "^1.5.5",
@@ -40,7 +41,7 @@
       "parser": "babel-eslint"
     }
   },
-  "prettier":{
+  "prettier": {
     "tabWidth": 4,
     "singleQuote": true
   },

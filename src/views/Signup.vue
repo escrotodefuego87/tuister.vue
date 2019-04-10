@@ -1,30 +1,31 @@
 <template>
     <div>
-
         <v-container grid-list-xl>
             <v-layout row wrap>
                 <v-card id="carta">
                     <v-flex xs10 offset-xs1>
-                        <v-form v-model="valid">
+                        <v-form v-on:submit.prevent="validateBeforeSubmit" v-if="!formSubmitted">
+
                             <h1>Registrarse en Tuister</h1>
 
-                            <v-text-field v-model="name" label="Name" :rules="nameRules" required>
-                            </v-text-field>
+                            <v-text-field  label="Name" name="name" v-validate="'required'"></v-text-field>
+                            <span>{{ errors.first('name') }}</span>
 
-                            <v-text-field v-model="nickname" label="Nickname" :rules="nickRules" required>
-                            </v-text-field>
+                            <v-text-field label="Nickname" name="nickname" v-validate="'required'"></v-text-field>
+                            <span>{{ errors.first('nickname') }}</span>
 
-                            <v-text-field type="email" v-model="email" label="Email" :rules="emailRules" required>
-                            </v-text-field>
+                            <v-text-field type="email"  label="email" name="email" v-validate="'required|email'"></v-text-field>
+                            <span>{{ errors.first('email') }}</span>
 
-                            <v-text-field type="password" v-model="password" :counter="8" label="Password" :rules="passRules" required>
-                            </v-text-field>
+                            <v-text-field type="password" :counter="8" label="Password" name="password" v-validate="'required|min:8'" ref="password"></v-text-field>
+                            <span v-if="errors.has('password')">{{ errors.first('password') }}</span>
 
-                            <v-text-field type="password" v-model="c_password" :counter="8" label="Confirm password" :rules="passRules" required>
-                            </v-text-field>
-
-                            <v-btn round right color="primary">Login</v-btn>
+                            <v-text-field type="password" :counter="8" label="Confirm password" data-vv-as="password" name="pass_confirmed" v-validate="'required|confirmed:password'"></v-text-field>
+                            <!-- <span v-if="errors.has('pass_confirmed')">{{errors.first('pass_confirmed')}}</span> -->
+                            
+                            <v-btn round right color="primary" type="submit">Login</v-btn>
                         </v-form>
+
                     </v-flex>
                 </v-card>
             </v-layout>
@@ -33,39 +34,47 @@
 </template>
 
 <script>
+import VeeValidate from 'vee-validate';
+import Vue from 'vue';
+Vue.use(VeeValidate);
+
 export default {
     name: 'signup',
     data() {
         return {
-            valid: false,
-            name: '',
-            nameRules:[
-                v => !!v || 'Name is required',
-            ],
-            nickname: '',
-            nickRules:[
-                v => !!v || 'Nickname is required',
-            ],
-            email: '',
-            emailRules:[
-                v => !!v || 'Email is required',
-                v => /.+@.+/.test(v) || 'E-mail must be valid'
-            ],
-            password: '',
-            c_password: '',
-            passRules:[
-                v => !!v || 'Password is required',
-                v => v.length >= 8 || 'Password must be at least 8 characters',
-                // v => this.password || 'The password does not match'
-            ],
+
+            data() {
+                return {
+
+                    formSubmitted: false
+                    
+                }
+            },
+           
             
         }
+         
+    },
+    methods: {
+
+        validateBeforeSubmit(e) {
+        this.$validator.validateAll();
+        if (!this.errors.any()) {
+            this.submitForm()
+        }
+      },
+      submitForm(){
+      this.formSubmitted = true
+      },
     },
 }
 </script>
 <style>
     #carta{
         border-radius: 15px;
+    }
+    span{
+        color: red;
     }
 
 </style>

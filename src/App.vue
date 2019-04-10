@@ -10,6 +10,7 @@
 <script>
 
 import toolbar from './components/toolbar.vue'
+import VeeValidate from 'vee-validate';
 
 export default {
 
